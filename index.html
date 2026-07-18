@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnBridge AI – Elevate Every Study Session</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080b1f;
+      --surface: rgba(255,255,255,.08);
+      --surface-strong: rgba(255,255,255,.14);
+      --text: #f8fbff;
+      --muted: #b8c3e5;
+      --primary: #8f7dff;
+      --accent: #4ac8ff;
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 30px 120px rgba(8,11,31,.28);
+      --radius: 28px;
+    }
+    [data-theme="light"] {
+      --bg: #f6f8ff;
+      --surface: rgba(255,255,255,.9);
+      --surface-strong: rgba(255,255,255,.98);
+      --text: #0f172a;
+      --muted: #556580;
+      --border: rgba(15,23,42,.12);
+      --shadow: 0 24px 80px rgba(15,23,42,.1);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, rgba(74,200,255,.16), transparent 25%),
+                  radial-gradient(circle at bottom right, rgba(143,125,255,.18), transparent 25%),
+                  linear-gradient(180deg, #040714 0%, #090f28 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .glass {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+    .container-xl {
+      max-width: 1240px;
+    }
+    .page-section {
+      display: none;
+      padding: 90px 0 60px;
+      min-height: calc(100vh - 100px);
+    }
+    .page-section.active {
+      display: block;
+    }
+    .navbar {
+      backdrop-filter: blur(20px);
+      background: rgba(6,10,26,.62);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: -.03em;
+    }
+    .navbar .nav-link {
+      color: rgba(248,251,255,.85);
+      transition: color .25s ease;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+      color: #ffffff;
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-top: 40px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(74,200,255,.3), rgba(143,125,255,.35));
+      top: -120px;
+      right: -120px;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.07);
+      bottom: -80px;
+      left: -80px;
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 5vw, 4.3rem);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.8;
+    }
+    .hero-buttons .btn {
+      min-width: 180px;
+      border-radius: 999px;
+      padding: 14px 26px;
+    }
+    .feature-card, .stat-card, .testimonial-card, .pricing-card, .faq-card, .plan-card, .dashboard-card {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.08);
+      border-radius: 28px;
+      padding: 28px;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .feature-card:hover, .stat-card:hover, .testimonial-card:hover, .pricing-card:hover, .faq-card:hover, .plan-card:hover, .dashboard-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,255,255,.18);
+    }
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,.1);
+      color: #8f7dff;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      margin-bottom: 2rem;
+    }
+    .section-title h2 {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      margin-bottom: .6rem;
+    }
+    .section-title p {
+      color: var(--muted);
+      max-width: 660px;
+    }
+    .stats-grid, .features-grid, .testimonials-grid, .pricing-grid, .dashboard-grid, .analytics-grid, .cards-grid, .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 1.6rem;
+    }
+    .btn-glow {
+      background: linear-gradient(135deg, #74b7ff, #957dff);
+      color: #fff;
+      border: none;
+      box-shadow: 0 14px 40px rgba(117,122,255,.25);
+    }
+    .btn-glow:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 60px rgba(117,122,255,.26);
+    }
+    .small-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      font-size: .92rem;
+    }
+    .animated-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .illustration-box {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 32px;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .illustration-box::before {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(74,200,255,.18);
+      top: 20%;
+      left: -60px;
+      filter: blur(48px);
+    }
+    .illustration-box::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(143,125,255,.18);
+      bottom: 10%;
+      right: -40px;
+      filter: blur(48px);
+    }
+    .ai-screen {
+      width: 100%;
+      max-width: 420px;
+      min-height: 420px;
+      background: rgba(10,14,40,.9);
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 32px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 40px 120px rgba(9,14,34,.22);
+    }
+    .ai-screen .topbar {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: 24px;
+    }
+    .topbar .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.28);
+    }
+    .chat-bubble {
+      max-width: 85%;
+      border-radius: 24px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      line-height: 1.75;
+      position: relative;
+    }
+    .chat-bubble.user {
+      background: rgba(74,200,255,.14);
+      margin-left: auto;
+      color: #fff;
+    }
+    .chat-bubble.bot {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+    }
+    .typing-dot {
+      width: 10px;
+      height: 10px;
+      background: #8f7dff;
+      margin-right: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      from { opacity: .2; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(-3px); }
+    }
+    .survey-grid {
+      display: grid;
+      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
+    }
+    .input-group-glass {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--text);
+    }
+    .input-group-glass label {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-bottom: .5rem;
+      display: block;
+    }
+    .input-group-glass input,
+    .input-group-glass select,
+    .input-group-glass textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+      padding: .35rem 0;
+    }
+    .form-check-input {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-top: .08rem;
+      border-radius: .35rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .form-check-label {
+      color: var(--text);
+    }
+    .pricing-card {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .faq-card {
+      cursor: pointer;
+    }
+    .faq-card summary {
+      list-style: none;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: .8rem;
+      color: var(--text);
+    }
+    .faq-card summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq-card p {
+      color: var(--muted);
+    }
+    .progress-pill {
+      font-size: .83rem;
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #fff;
+      background: rgba(74,200,255,.18);
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .section-alt {
+      background: rgba(255,255,255,.03);
+      padding: 80px 0;
+    }
+    .form-control,
+    .form-select,
+    .form-check-input {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+    }
+    .form-control::placeholder {
+      color: rgba(248,251,255,.6);
+    }
+    .navbar-toggler {
+      border-color: rgba(255,255,255,.18);
+    }
+    .nav-mobile {
+      display: none;
+    }
+    .page-footer {
+      padding: 45px 0 20px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+    .page-footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .page-footer a:hover {
+      color: #ffffff;
+    }
+    .badge-pill {
+      padding: .55rem 1rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      font-size: .85rem;
+    }
+    .toast-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: 24px;
+      padding: 18px 22px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .toast-card i {
+      color: #74b7ff;
+      font-size: 1.4rem;
+    }
+    .theme-toggle {
+      width: 56px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      position: relative;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .theme-toggle .thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8f7dff, #4ac8ff);
+      transition: transform .3s ease;
+    }
+    [data-theme="light"] .theme-toggle .thumb {
+      transform: translateX(28px);
+    }
+    .hidden-page {
+      display: none;
+    }
+    .tab-link {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: .95rem;
+      transition: color .25s ease;
+    }
+    .tab-link.active {
+      color: #fff;
+      font-weight: 600;
+    }
+    .pulse {
+      animation: pulse 2.4s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    @media (max-width: 991px) {
+      .hero {
+        text-align: center;
+      }
+      .hero .row > div:first-child {
+        margin-bottom: 2rem;
+      }
+    }
+    @media (max-width: 767px) {
+      .nav-mobile { display: block; }
+      .navbar-collapse { display: none; }
+      .navbar-collapse.show { display: block; }
+      .hero::before, .hero::after { display: none; }
+      .page-section { padding-top: 70px; }
+      .illustration-box { min-height: 380px; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div id="preloader" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#02040f;z-index:9999;">
+    <div style="text-align:center;color:#fff;">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p style="margin-top:16px;font-size:1rem;letter-spacing:.08em;">Loading LearnBridge AI...</p>
+    </div>
+  </div>
+  <nav class="navbar navbar-expand-lg sticky-top px-3 py-3">
+    <div class="container-xl">
+      <a class="navbar-brand text-white" href="#" data-page="home">LearnBridge AI</a>
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+          <li class="nav-item"><a class="nav-link" href="#home" data-page="home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#landing" data-page="landing">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about" data-page="about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#analytics" data-page="analytics">Analytics</a></li>
+          <li class="nav-item"><a class="nav-link" href="#planner" data-page="planner">Planner</a></li>
+          <li class="nav-item"><a class="nav-link" href="#profile" data-page="profile">Profile</a></li>
+          <li class="nav-item"><button class="btn btn-sm btn-glow" id="themeBtn"><i class="fas fa-moon"></i></button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <section class="page-section active" id="home" data-page="home">
+      <div class="container-xl">
+        <div class="row align-items-center gy-5">
+          <div class="col-lg-6" data-aos="fade-up">
+            <span class="badge-pill mb-3">Adaptive learning built around your goals</span>
+            <h1>LearnBridge AI – Smart study plans for faster growth</h1>
+            <p>Turn study time into meaningful progress with AI-driven lessons, interactive practice tools, and clear performance insights that keep every learner ahead.</p>
+            <div class="hero-buttons d-flex flex-wrap gap-3 mt-4">
+              <button class="btn btn-glow" data-page="signup">Start Free Trial</button>
+              <button class="btn btn-outline-light" data-page="learning">Explore Learning</button>
+            </div>
+            <div class="row stats-grid mt-5">
+              <div class="col-6"><div class="stat-card glass p-4"><h4>95%</h4><p>AI retention rate</p></div></div>
+              <div class="col-6"><div class="stat-card glass p-4"><h4>12k+</h4><p>Active learners</p></div></div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left">
+            <div class="illustration-box glass p-4">
+              <div class="ai-screen">
+                <div class="topbar">
+                  <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+                <div class="chat-bubble bot">Hi Maya! Ready for a study boost? I’ve prepared a personalized learning plan for your next physics test.</div>
+                <div class="chat-bubble user">Yes, show me the plan.</div>
+                <div class="chat-bubble bot">Great! Let’s work smarter together with daily goals, flashcards, and analytics.</div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                  <div>
+                    <span class="badge-pill"><i class="fas fa-rocket"></i> AI Tutor</span>
+                  </div>
+                  <div class="small-pill pulse"><i class="fas fa-star"></i> 4.9/5 rating</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" id="landing" data-page="landing">
+      <div class="container-xl">
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>Built for ambitious learners</h2>
+          <p>A complete learning suite with adaptive guidance, progress tracking, and smart tools that make every study session count.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card glass" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-circle"><i class="fas fa-brain"></i></div>
+            <h5>Adaptive learning engine</h5>
+            <p>Personalized study paths adjust as you learn, focusing on your strengths and gaps.</p>
+          </div>
+          <div class="feature-card glass" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-circle"><i class="fas fa-chart-line"></i></div>
+            <h5>Real-time analytics</h5>
+            <p>Instant insights show which subjects need attention and where progress is accelerating.</p>
+          </div>
+          <div class="feature-card glass" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></div>
+            <h5>Instant AI tutor</h5>
+            <p>Ask questions, get explanations, and receive study prompts tailored to your current topic.</p>
+          </div>
+          <div class="feature-card glass" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon-circle"><i class="fas fa-calendar-check"></i></div>
+            <h5>Smart study planner</h5>
+            <p>Schedule reviews, quizzes, and tasks with reminders that keep your routine on track.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section section-alt" id="about" data-page="about">
+      <div class="container-xl">
+        <div class="row align-items-center gy-5">
+          <div class="col-lg-5" data-aos="fade-right">
+            <div class="glass p-5">
+              <h3>How it works</h3>
+              <p>LearnBridge AI uses your preferences, subjects and study habits to create a personalized path with reminders, flashcards and analytics that keep you motivated.</p>
+              <div class="small-pill mb-3"><i class="fas fa-user-cog"></i> Personalized onboarding</div>
+              <div class="small-pill"><i class="fas fa-bolt"></i> Instant feedback</div>
+            </div>
+          </div>
+          <div class="col-lg-7" data-aos="fade-left">
+            <div class="row g-4">
+              <div class="col-md-4"><div class="plan-card glass"><h6>1. Choose profile</h6><p>Set goals, subjects and learning style.</p></div></div>
+              <div class="col-md-4"><div class="plan-card glass"><h6>2. Track progress</h6><p>Monitor performance with weekly and monthly reports.</p></div></div>
+              <div class="col-md-4"><div class="plan-card glass"><h6>3. Improve daily</h6><p>Use quizzes, flashcards and reminders that adapt to you.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" id="statistics" data-page="statistics">
+      <div class="container-xl">
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>Results you can trust</h2>
+          <p>Clear metrics help learners stay motivated, improve faster, and celebrate each achievement.</p>
+        </div>
+        <div class="stats-grid" data-aos="fade-up" data-aos-delay="100">
+          <div class="stat-card glass"><h4>48%</h4><p>Faster topic mastery</p></div>
+          <div class="stat-card glass"><h4>90%</h4><p>Study plan completion rate</p></div>
+          <div class="stat-card glass"><h4>82%</h4><p>Accuracy improvement</p></div>
+          <div class="stat-card glass"><h4>3x</h4><p>More productive sessions</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section section-alt" id="testimonials" data-page="testimonials">
+      <div class="container-xl">
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>What students say</h2>
+          <p>Real feedback from learners who upgraded their study routine.</p>
+        </div>
+        <div class="testimonials-grid" data-aos="fade-up" data-aos-delay="150">
+          <div class="testimonial-card glass"><p>"LearnBridge AI helped me finally understand calculus with tailored exercises and helpful tutor chat."</p><strong>Adrian K.</strong></div>
+          <div class="testimonial-card glass"><p>"The analytics motivated me to keep a streak and improve my grades each week."</p><strong>Sofia L.</strong></div>
+          <div class="testimonial-card glass"><p>"I love the planner and flashcards. It feels like a premium learning app."</p><strong>Riya P.</strong></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" id="pricing" data-page="pricing">
+      <div class="container-xl">
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>Flexible plans for every learner</h2>
+          <p>Choose a plan that fits your goals, from free access to premium coaching and advanced performance tracking.</p>
+        </div>
+        <div class="pricing-grid" data-aos="fade-up" data-aos-delay="120">
+          <div class="pricing-card glass"><small>Starter</small><h3>$0</h3><p>Free access to essential study tools, planner features, and a demo AI tutor.</p><ul><li>5 lessons per week</li><li>Basic analytics</li><li>Community support</li></ul><button class="btn btn-outline-light w-100 mt-3" data-page="signup">Sign Up</button></div>
+          <div class="pricing-card glass"><small>Pro</small><h3>$14/mo</h3><p>Best for focused learners with full insights, unlimited practice, and advanced AI guidance.</p><ul><li>Unlimited quizzes</li><li>Deep performance insights</li><li>Weekly progress reports</li></ul><button class="btn btn-glow w-100 mt-3" data-page="signup">Get Started</button></div>
+          <div class="pricing-card glass"><small>Elite</small><h3>$29/mo</h3><p>Premium support, certifications, and tailored study coaching for ambitious students.</p><ul><li>Priority AI assistance</li><li>Certificate tracks</li><li>Advanced learning goals</li></ul><button class="btn btn-outline-light w-100 mt-3" data-page="signup">Request Demo</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section section-alt" id="faq" data-page="faq">
+      <div class="container-xl">
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>FAQ</h2>
+          <p>Questions around onboarding, AI coaching and progress tracking.</p>
+        </div>
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-6"><details class="faq-card glass p-4"><summary>How does the AI personalize my study plan?</summary><p>It uses your profile, selected subjects, preferred learning style, and daily schedule to create tailored recommendations.</p></details></div>
+          <div class="col-lg-6"><details class="faq-card glass p-4"><summary>Can I use LearnBridge AI without signing up?</summary><p>You can explore the landing experience, but full personalization requires a free account.</p></details></div>
+          <div class="col-lg-6"><details class="faq-card glass p-4"><summary>Does the dashboard track progress automatically?</summary><p>Yes, your quiz results, streaks, and study time update instantly as you interact with the platform.</p></details></div>
+          <div class="col-lg-6"><details class="faq-card glass p-4"><summary>Is there a dark mode available?</summary><p>Absolutely. Toggle dark/light mode inside Settings for comfortable study any time of day.</p></details></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" id="contact" data-page="contact">
+      <div class="container-xl">
+        <div class="row align-items-center gy-5">
+          <div class="col-lg-5" data-aos="fade-right">
+            <div class="section-title"><h2>Contact us</h2><p>Questions about LearnBridge AI or partnership opportunities? Send us a message.</p></div>
+          </div>
+          <div class="col-lg-7" data-aos="fade-left">
+            <div class="glass p-4">
+              <form id="contactForm">
+                <div class="row g-3">
+                  <div class="col-md-6"><input type="text" class="form-control" placeholder="Your Name" required></div>
+                  <div class="col-md-6"><input type="email" class="form-control" placeholder="Email address" required></div>
+                  <div class="col-12"><input type="text" class="form-control" placeholder="Subject"></div>
+                  <div class="col-12"><textarea class="form-control" rows="5" placeholder="Message"></textarea></div>
+                  <div class="col-12"><button class="btn btn-glow">Send Message</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section section-alt" id="newsletter" data-page="newsletter">
+      <div class="container-xl">
+        <div class="glass p-5 text-center" data-aos="fade-up">
+          <h2>Stay informed with weekly AI learning tips</h2>
+          <p>Subscribe to our newsletter for product updates, study insights, and personalization ideas.</p>
+          <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+            <input class="form-control w-100 w-sm-50" type="email" placeholder="Enter your email address">
+            <button class="btn btn-glow">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" id="footer" data-page="footer">
+      <div class="container-xl page-footer">
+        <div class="row gy-4">
+          <div class="col-md-6"><h5>LearnBridge AI</h5><p>Modern AI-powered learning solutions for students and educators.</p></div>
+          <div class="col-md-6 d-flex justify-content-md-end gap-4"><a href="#home" data-page="home">Home</a><a href="#pricing" data-page="pricing">Pricing</a><a href="#contact" data-page="contact">Contact</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section hidden-page" id="login" data-page="login">
+      <div class="container-xl">
+        <div class="row justify-content-center align-items-center min-vh-75">
+          <div class="col-xl-5 col-lg-6" data-aos="fade-up">
+            <div class="glass p-5">
+              <div class="mb-4"><h2>Welcome Back</h2><p>Login to continue your learning journey.</p></div>
+              <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-outline-light flex-fill"><i class="fab fa-google me-2"></i>Google</button>
+                <button class="btn btn-outline-light flex-fill"><i class="fab fa-apple me-2"></i>Apple</button>
+              </div>
+              <form>
+                <div class="mb-3"><input type="email" class="form-control" placeholder="Email address"></div>
+                <div class="mb-3 position-relative"><input id="loginPassword" type="password" class="form-control" placeholder="Password"><button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y text-white" id="toggleLoginPass"><i class="fas fa-eye"></i></button></div>
+                <div class="d-flex justify-content-between align-items-center mb-4"><div class="form-check"><input class="form-check-input" type="checkbox" id="rememberCheck"><label class="form-check-label" for="rememberCheck">Remember me</label></div><a href="#" class="text-white">Forgot password?</a></div>
+                <button class="btn btn-glow w-100" type="button" data-page="dashboard">Login</button>
+              </form>
+              <p class="mt-4">Don’t have an account? <button class="btn btn-link p-0 text-white" data-page="signup">Sign up</button></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="signup" data-page="signup">
+      <div class="container-xl">
+        <div class="row justify-content-center align-items-center min-vh-75">
+          <div class="col-xl-6 col-lg-7" data-aos="fade-up">
+            <div class="glass p-5">
+              <h2>Create your account</h2>
+              <p>Register for personalized learning, analytics, and AI-powered coaching.</p>
+              <form id="signupForm">
+                <div class="row g-3">
+                  <div class="col-md-6"><input type="text" class="form-control" id="signupName" placeholder="Full name" required></div>
+                  <div class="col-md-6"><input type="email" class="form-control" id="signupEmail" placeholder="Email address" required></div>
+                  <div class="col-md-6"><input type="password" class="form-control" id="signupPass" placeholder="Password" required></div>
+                  <div class="col-md-6"><input type="password" class="form-control" id="signupConfirm" placeholder="Confirm password" required></div>
+                  <div class="col-12"><div class="progress" style="height:10px;border-radius:999px;"><div id="passwordStrength" class="progress-bar bg-info" role="progressbar" style="width:0%"></div></div></div>
+                  <div class="col-12 form-check"><input class="form-check-input" type="checkbox" id="termsCheck"><label class="form-check-label" for="termsCheck">I agree to the terms and conditions.</label></div>
+                  <div class="col-12"><button class="btn btn-glow w-100" type="button" data-page="dashboard">Create account</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="dashboard" data-page="dashboard">
+      <div class="container-xl">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-4 mb-4">
+          <div>
+            <h2>Welcome back, Maya</h2>
+            <p>Your dashboard shows today’s progress and smart learning prompts.</p>
+          </div>
+          <button class="btn btn-glow" data-page="learning"><i class="fas fa-graduation-cap me-2"></i>Continue learning</button>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dashboard-card glass"><h5>Study streak</h5><p class="display-6 mb-2">8 days</p><span class="badge-pill">Keep the momentum</span></div>
+          <div class="dashboard-card glass"><h5>Today's schedule</h5><p>4 lessons • 2 quizzes • 1 review</p><span class="badge-pill">Live class at 6PM</span></div>
+          <div class="dashboard-card glass"><h5>Upcoming quizzes</h5><p>Physics, History, Spanish</p><span class="badge-pill">Quiz accuracy 88%</span></div>
+          <div class="dashboard-card glass"><h5>AI recommendations</h5><p>Focus on weak math topics and practice flashcards.</p><span class="badge-pill">Next task: Algebra review</span></div>
+        </div>
+        <div class="row g-4 mt-4">
+          <div class="col-xl-4"><div class="glass p-4"><h5>Weekly goals</h5><p>Complete 5 lessons, review 60 flashcards and earn 600 XP.</p></div></div>
+          <div class="col-xl-8"><div class="glass p-4"><h5>Learning statistics</h5><div class="row text-center mt-4"><div class="col"><h3>82%</h3><p>Accuracy</p></div><div class="col"><h3>28h</h3><p>Study time</p></div><div class="col"><h3>14</h3><p>Activities</p></div></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="tutor" data-page="tutor">
+      <div class="container-xl">
+        <div class="row align-items-start gy-4">
+          <div class="col-lg-4" data-aos="fade-right">
+            <div class="glass p-4">
+              <h4>AI Tutor</h4>
+              <p>Ask questions, choose prompts and get study-ready answers from your on-demand coach.</p>
+              <div class="d-flex flex-column gap-3 mt-4">
+                <button class="btn btn-outline-light" type="button"><i class="fas fa-microphone me-2"></i>Voice tutoring</button>
+                <button class="btn btn-outline-light" type="button"><i class="fas fa-lightbulb me-2"></i>Suggested prompts</button>
+                <button class="btn btn-outline-light" type="button"><i class="fas fa-history me-2"></i>Session history</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8" data-aos="fade-left">
+            <div class="ai-screen glass p-4">
+              <div class="topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div id="chatHistory">
+                <div class="chat-bubble bot">Hey Maya! I’m ready to help with your next physics concept.</div>
+                <div class="chat-bubble user">Explain energy conservation in simple terms.</div>
+                <div class="chat-bubble bot">Energy can't be created or destroyed, only transformed. In study terms, practice builds understanding.</div>
+              </div>
+              <div class="d-flex gap-2 mt-3">
+                <input id="chatInput" class="form-control" type="text" placeholder="Ask the AI tutor...">
+                <button class="btn btn-glow" id="sendChat"><i class="fas fa-paper-plane"></i></button>
+              </div>
+              <div class="mt-3 small-pill"><i class="fas fa-lightbulb"></i> Suggested: "Help me revise algebra formulas"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="learning" data-page="learning">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Personalized Learning</h2><p>Complete your profile and get a sample study plan instantly.</p></div>
+        <div class="row gy-4">
+          <div class="col-xl-4" data-aos="fade-right">
+            <div class="glass p-4 survey-grid">
+              <div class="input-group-glass"><label>Name</label><input id="studentName" type="text" placeholder="Maya" value="Maya"></div>
+              <div class="input-group-glass"><label>Class</label><select id="studentClass"><option>10th Grade</option><option>11th Grade</option><option>12th Grade</option></select></div>
+              <div class="input-group-glass"><label>Subject</label><select id="studentSubject"><option>Physics</option><option>Mathematics</option><option>History</option></select></div>
+              <div class="input-group-glass"><label>Language</label><select id="studentLanguage"><option>English</option><option>Spanish</option><option>French</option></select></div>
+              <div class="input-group-glass"><label>Learning Style</label><select id="learningStyle"><option>Visual</option><option>Auditory</option><option>Kinesthetic</option></select></div>
+              <div class="input-group-glass"><label>Difficulty</label><select id="difficultyLevel"><option>Intermediate</option><option>Beginner</option><option>Advanced</option></select></div>
+              <div class="input-group-glass"><label>Daily study time</label><input id="studyTime" type="text" value="2 hours"></div>
+              <button class="btn btn-glow mt-3" id="generatePlan">Generate Study Plan</button>
+            </div>
+          </div>
+          <div class="col-xl-8" data-aos="fade-left">
+            <div class="glass p-4" id="planOutput">
+              <h5>Sample study plan</h5>
+              <p class="text-muted">Complete the form and click generate to preview your personalized plan.</p>
+              <div id="planCards" class="row g-3 mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="quiz" data-page="quiz">
+      <div class="container-xl">
+        <div class="row gy-4 align-items-start">
+          <div class="col-xl-8" data-aos="fade-up">
+            <div class="glass p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3"><h5>Quiz Challenge</h5><span id="quizTimer">02:00</span></div>
+              <div class="progress mb-4" style="height:12px;border-radius:999px;"><div id="quizProgress" class="progress-bar bg-info" style="width:0%"></div></div>
+              <div id="quizQuestion"><h6>1. What is the acceleration due to gravity on Earth?</h6><div class="list-group mt-3"></div></div>
+              <button class="btn btn-glow mt-4" id="nextQuestion">Next</button>
+            </div>
+          </div>
+          <div class="col-xl-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="glass p-4"><h5>Score Card</h5><p class="mb-3">Keep track of your correct answers and time.</p><div class="row text-center"><div class="col"><h3 id="scoreValue">0</h3><p>Correct</p></div><div class="col"><h3 id="questionCount">0/5</h3><p>Answered</p></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="analytics" data-page="analytics">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Progress Analytics</h2><p>Visualize your weekly streak, subject performance and study time.</p></div>
+        <div class="analytics-grid" data-aos="fade-up" data-aos-delay="100">
+          <div class="glass p-4"><h6>Weekly Progress</h6><canvas id="weeklyChart"></canvas></div>
+          <div class="glass p-4"><h6>Subject Performance</h6><canvas id="subjectChart"></canvas></div>
+          <div class="glass p-4"><h6>Quiz Accuracy</h6><canvas id="accuracyChart"></canvas></div>
+          <div class="glass p-4"><h6>Study Time</h6><canvas id="studyChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="planner" data-page="planner">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Study Planner</h2><p>Create tasks, review your weekly plan, and stay on schedule.</p></div>
+        <div class="row gy-4">
+          <div class="col-xl-7" data-aos="fade-right">
+            <div class="glass p-4"><h5>Weekly planner</h5><div class="row g-3 mt-3">
+                <div class="col-6"><div class="small-pill">Mon • Algebra</div></div>
+                <div class="col-6"><div class="small-pill">Tue • Chemistry</div></div>
+                <div class="col-6"><div class="small-pill">Wed • Biology</div></div>
+                <div class="col-6"><div class="small-pill">Thu • History</div></div>
+                <div class="col-6"><div class="small-pill">Fri • English</div></div>
+                <div class="col-6"><div class="small-pill">Sat • Review</div></div>
+              </div></div>
+          </div>
+          <div class="col-xl-5" data-aos="fade-left">
+            <div class="glass p-4"><h5>To-do list</h5><div class="mb-3"><div class="input-group"><input id="todoInput" class="form-control" placeholder="New task"><button class="btn btn-glow" id="addTodo">Add</button></div></div><div id="todoList" class="list-group"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="flashcards" data-page="flashcards">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>AI Flashcards</h2><p>Practice key concepts with interactive flashcards.</p></div>
+        <div class="row g-4">
+          <div class="col-xl-8" data-aos="fade-up">
+            <div class="glass p-4 text-center" style="min-height:320px;"><div id="flashcard" class="d-inline-block text-start" style="width:100%;max-width:520px;"></div></div>
+          </div>
+          <div class="col-xl-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="glass p-4"><h5>Controls</h5><div class="d-flex gap-2 mt-3"><button class="btn btn-outline-light flex-fill" id="prevCard">Previous</button><button class="btn btn-outline-light flex-fill" id="nextCard">Next</button></div><button class="btn btn-glow w-100 mt-3" id="bookmarkCard"><i class="fas fa-bookmark me-2"></i>Bookmark</button><div class="mt-4"><span class="badge-pill">Review 6/12</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="notes" data-page="notes">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Notes</h2><p>Search, organize, and favorite your study notes.</p></div>
+        <div class="row g-4">
+          <div class="col-xl-4" data-aos="fade-right"><input id="noteSearch" class="form-control mb-3" placeholder="Search notes"><div class="glass p-4"><h6>Categories</h6><div class="mt-3 d-flex flex-wrap gap-2"><span class="small-pill">Math</span><span class="small-pill">Science</span><span class="small-pill">Language</span></div></div></div>
+          <div class="col-xl-8" data-aos="fade-left"><div class="notes-grid glass p-4"><div class="d-flex justify-content-between align-items-center mb-3"><h6>Favorites</h6><span class="badge-pill">3 notes</span></div><div class="row g-3"><div class="col-md-6"><div class="glass p-3"><h6>Physics summary</h6><p>Key formulas and concepts for energy.</p></div></div><div class="col-md-6"><div class="glass p-3"><h6>History timeline</h6><p>Important dates and events simplified.</p></div></div></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="resources" data-page="resources">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Resources</h2><p>Video lessons, PDF guides and recommended courses curated for you.</p></div>
+        <div class="row g-4">
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><i class="fas fa-play-circle fa-2x mb-3"></i><h5>Video course</h5><p>Deep dive into algebra concepts.</p></div></div>
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><i class="fas fa-file-pdf fa-2x mb-3"></i><h5>PDF guide</h5><p>Study sheet for quick revision.</p></div></div>
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><i class="fas fa-book fa-2x mb-3"></i><h5>Notes pack</h5><p>Structured summaries for each subject.</p></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="gamification" data-page="gamification">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Gamification</h2><p>Earn badges, track XP, and power your daily rewards.</p></div>
+        <div class="row g-4">
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><h5>XP Points</h5><p><strong>8,520</strong> points earned</p></div></div>
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><h5>Achievement Badges</h5><p><strong>5 unlocked</strong></p></div></div>
+          <div class="col-md-4" data-aos="fade-up"><div class="glass p-4"><h5>Leaderboard</h5><p>Top 12% of learners</p></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="notifications" data-page="notifications">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Notifications</h2><p>Reminders, assignment alerts and motivation cards.</p></div>
+        <div class="row g-4">
+          <div class="col-md-6" data-aos="fade-up"><div class="toast-card"><i class="fas fa-bell"></i><div><strong>Exam reminder</strong><p>Physics test tomorrow at 9 AM.</p></div></div></div>
+          <div class="col-md-6" data-aos="fade-up"><div class="toast-card"><i class="fas fa-calendar-alt"></i><div><strong>Study streak</strong><p>Keep going! You're on an 8-day streak.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="profile" data-page="profile">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Profile</h2><p>Review your achievements, certificates and learning history.</p></div>
+        <div class="row g-4">
+          <div class="col-lg-4" data-aos="fade-right"><div class="glass p-4 text-center"><div class="mb-3"><img src="https://i.pravatar.cc/120?img=47" alt="Student" class="rounded-circle" width="100"></div><h5>Maya Chen</h5><p class="text-muted">10th Grade • Physics Enthusiast</p></div></div>
+          <div class="col-lg-8" data-aos="fade-left"><div class="glass p-4"><div class="row text-center"><div class="col"><h5>Achievements</h5><p>12</p></div><div class="col"><h5>Certificates</h5><p>5</p></div><div class="col"><h5>Past milestones</h5><p>Completed 24 lessons</p></div></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section hidden-page" id="settings" data-page="settings">
+      <div class="container-xl">
+        <div class="section-title" data-aos="fade-up"><h2>Settings</h2><p>Customize your theme, language and notification preferences.</p></div>
+        <div class="row g-4">
+          <div class="col-lg-4" data-aos="fade-right"><div class="glass p-4"><h5>Theme</h5><div class="d-flex align-items-center gap-3 mt-3"><div class="theme-toggle" id="themeSwitch"><span class="thumb"></span></div><span>Dark / Light</span></div></div></div>
+          <div class="col-lg-4" data-aos="fade-up"><div class="glass p-4"><h5>Language</h5><select class="form-select"><option>English</option><option>Spanish</option><option>French</option></select></div></div>
+          <div class="col-lg-4" data-aos="fade-left"><div class="glass p-4"><h5>Notifications</h5><div class="form-check form-switch mt-3"><input class="form-check-input" type="checkbox" id="notifyToggle" checked><label class="form-check-label" for="notifyToggle">Reminders & alerts</label></div></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ duration: 900, once: true });
+      setTimeout(() => document.getElementById('preloader').style.display = 'none', 900);
+      const pages = document.querySelectorAll('[data-page]');
+      const sections = document.querySelectorAll('.page-section');
+      const navLinks = document.querySelectorAll('[data-page]');
+      const root = document.body;
+      const themeBtn = document.getElementById('themeBtn');
+      const themeSwitch = document.getElementById('themeSwitch');
+      const savedTheme = localStorage.getItem('learnbridge-theme');
+      if (savedTheme) root.setAttribute('data-theme', savedTheme);
+
+      function openPage(page) {
+        sections.forEach(section => section.classList.toggle('active', section.id === page));
+        navLinks.forEach(link => link.classList.toggle('active', link.dataset.page === page));
+        if (page === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      document.querySelectorAll('[data-page]').forEach(link => {
+        link.addEventListener('click', e => {
+          const page = link.dataset.page;
+          if (!page) return;
+          openPage(page);
+          const collapse = document.querySelector('.navbar-collapse');
+          if (collapse.classList.contains('show')) new bootstrap.Collapse(collapse).toggle();
+        });
+      });
+      openPage('home');
+
+      themeBtn.addEventListener('click', () => toggleTheme());
+      themeSwitch.addEventListener('click', () => toggleTheme());
+      function toggleTheme() {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('learnbridge-theme', next);
+      }
+
+      document.getElementById('toggleLoginPass').addEventListener('click', () => {
+        const pass = document.getElementById('loginPassword');
+        pass.type = pass.type === 'password' ? 'text' : 'password';
+      });
+
+      const signupPass = document.getElementById('signupPass');
+      const strength = document.getElementById('passwordStrength');
+      signupPass.addEventListener('input', () => {
+        const score = Math.min(signupPass.value.length * 10 + (/[A-Z]/.test(signupPass.value) ? 10 : 0) + (/[0-9]/.test(signupPass.value) ? 10 : 0), 100);
+        strength.style.width = score + '%';
+        strength.className = 'progress-bar ' + (score > 70 ? 'bg-success' : score > 40 ? 'bg-warning' : 'bg-danger');
+      });
+
+      document.getElementById('generatePlan').addEventListener('click', () => {
+        const name = document.getElementById('studentName').value || 'Student';
+        const subject = document.getElementById('studentSubject').value;
+        const style = document.getElementById('learningStyle').value;
+        const difficulty = document.getElementById('difficultyLevel').value;
+        const studyTime = document.getElementById('studyTime').value;
+        const sections = [
+          `Review the main ${subject} formulas with visual summaries.`,
+          `Practice a quick quiz to strengthen ${subject.toLowerCase()} concepts.`,
+          `Watch a short lesson and take notes using ${style.toLowerCase()} aids.`,
+          `Complete a challenge focusing on ${difficulty.toLowerCase()} problems.`,
+          `Use flashcards for rapid recall during your ${studyTime} session.`
+        ];
+        const planCards = document.getElementById('planCards');
+        planCards.innerHTML = sections.map((text, index) =>
+          `<div class="col-md-6"><div class="plan-card glass"><h6>Day ${index + 1}</h6><p>${text}</p></div></div>`
+        ).join('');
+      });
+
+      const quizData = [
+        { question: 'What is the acceleration due to gravity on Earth?', options: ['9.8 m/s²', '5.4 m/s²', '12 m/s²', '15 m/s²'], answer: 0 },
+        { question: 'Which element is a noble gas?', options: ['Oxygen', 'Neon', 'Sodium', 'Iron'], answer: 1 },
+        { question: 'What is the capital of France?', options: ['Paris', 'Rome', 'Berlin', 'Madrid'], answer: 0 },
+        { question: 'Which process converts sugar into energy?', options: ['Photosynthesis', 'Evaporation', 'Respiration', 'Condensation'], answer: 2 },
+        { question: 'What is 7 x 8?', options: ['54', '56', '58', '60'], answer: 1 }
+      ];
+      let currentQuestion = 0; let score = 0; let answered = 0; let timer = 120; let timerInterval;
+      const quizTitle = document.getElementById('quizQuestion');
+      const quizProgress = document.getElementById('quizProgress');
+      const quizScore = document.getElementById('scoreValue');
+      const questionCount = document.getElementById('questionCount');
+
+      function loadQuestion() {
+        if (currentQuestion >= quizData.length) return showQuizResult();
+        const item = quizData[currentQuestion];
+        quizTitle.innerHTML = `<h6>${currentQuestion + 1}. ${item.question}</h6><div class="list-group mt-3">${item.options.map((option, index) => `<button class="list-group-item list-group-item-action text-start option-btn" data-index="${index}">${option}</button>`).join('')}</div>`;
+        document.querySelectorAll('.option-btn').forEach(btn => btn.addEventListener('click', () => selectOption(parseInt(btn.dataset.index))));
+      }
+      function selectOption(index) {
+        const item = quizData[currentQuestion];
+        answered += 1;
+        if (index === item.answer) score += 1;
+        quizScore.textContent = score;
+        questionCount.textContent = `${answered}/${quizData.length}`;
+        currentQuestion += 1;
+        quizProgress.style.width = `${(answered / quizData.length) * 100}%`;
+        if (currentQuestion < quizData.length) loadQuestion(); else showQuizResult();
+      }
+      function showQuizResult() {
+        clearInterval(timerInterval);
+        quizTitle.innerHTML = `<div class="text-center"><h5>Result</h5><p>You answered ${score} out of ${quizData.length} correctly.</p><button class="btn btn-glow mt-3" id="retryQuiz">Retry Quiz</button></div>`;
+        document.getElementById('retryQuiz').addEventListener('click', resetQuiz);
+      }
+      function resetQuiz() {
+        currentQuestion = 0; score = 0; answered = 0; timer = 120;
+        quizScore.textContent = '0'; questionCount.textContent = '0/5'; quizProgress.style.width = '0%';
+        startTimer(); loadQuestion();
+      }
+      document.getElementById('nextQuestion').addEventListener('click', () => { if (currentQuestion < quizData.length) loadQuestion(); });
+      function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          timer -= 1;
+          const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
+          const seconds = String(timer % 60).padStart(2, '0');
+          document.getElementById('quizTimer').textContent = `${minutes}:${seconds}`;
+          if (timer <= 0) { clearInterval(timerInterval); showQuizResult(); }
+        }, 1000);
+      }
+      loadQuestion(); startTimer();
+
+      const todoInput = document.getElementById('todoInput');
+      const todoList = document.getElementById('todoList');
+      document.getElementById('addTodo').addEventListener('click', () => {
+        if (!todoInput.value.trim()) return;
+        const item = document.createElement('div');
+        item.className = 'list-group-item d-flex justify-content-between align-items-center glass';
+        item.innerHTML = `<span>${todoInput.value}</span><button class="btn btn-sm btn-outline-light">Done</button>`;
+        item.querySelector('button').addEventListener('click', () => item.remove());
+        todoList.prepend(item);
+        todoInput.value = '';
+      });
+
+      const flashcards = [
+        { front: 'What is photosynthesis?', back: 'A process plants use to convert light into energy.' },
+        { front: 'Newton’s 2nd law', back: 'Force equals mass times acceleration.' },
+        { front: 'Prime number', back: 'A number divisible only by 1 and itself.' }
+      ];
+      let currentCard = 0; let flipped = false;
+      const flashcardEl = document.getElementById('flashcard');
+      function renderFlashcard() {
+        const card = flashcards[currentCard];
+        flashcardEl.innerHTML = `<div class="glass p-4" style="border-radius:28px;cursor:pointer;min-height:200px;" id="cardFace"><h5>${flipped ? card.back : card.front}</h5><p class="text-muted mt-3">${flipped ? 'Answer' : 'Question'}</p></div>`;
+        document.getElementById('cardFace').addEventListener('click', () => { flipped = !flipped; renderFlashcard(); });
+      }
+      document.getElementById('prevCard').addEventListener('click', () => { currentCard = (currentCard - 1 + flashcards.length) % flashcards.length; flipped = false; renderFlashcard(); });
+      document.getElementById('nextCard').addEventListener('click', () => { currentCard = (currentCard + 1) % flashcards.length; flipped = false; renderFlashcard(); });
+      document.getElementById('bookmarkCard').addEventListener('click', () => alert('Flashcard bookmarked!'));
+      renderFlashcard();
+
+      document.getElementById('noteSearch').addEventListener('input', e => {
+        console.log('Search notes:', e.target.value);
+      });
+
+      const weeklyChart = new Chart(document.getElementById('weeklyChart'), {
+        type: 'line', data: { labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets: [{ label: 'Progress', data: [65,72,80,78,85,90,94], borderColor: '#74b7ff', backgroundColor:'rgba(116,183,255,.16)', tension: .4, fill: true }] }, options: { responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{color: 'var(--muted)'}}, x:{ticks:{color: 'var(--muted)'}} }}
+      });
+      const subjectChart = new Chart(document.getElementById('subjectChart'), {
+        type: 'doughnut', data: { labels:['Math','Science','English','History'], datasets:[{ data:[32,28,20,20], backgroundColor:['#74b7ff','#8f7dff','#4ac8ff','#b486ff'] }] }, options:{plugins:{legend:{position:'bottom', labels:{color:'var(--muted)'}}}}
+      });
+      const accuracyChart = new Chart(document.getElementById('accuracyChart'), {
+        type:'bar', data:{labels:['Week1','Week2','Week3','Week4'], datasets:[{label:'Accuracy', data:[78,82,85,88], backgroundColor:'#8f7dff'}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{color:'var(--muted)'}}, x:{ticks:{color:'var(--muted)'}}}}
+      });
+      const studyChart = new Chart(document.getElementById('studyChart'), {
+        type:'radar', data:{labels:['Reading','Practice','Review','Video','Quiz'], datasets:[{label:'Weekly study hours', data:[4,5,3,2,2], borderColor:'#4ac8ff', backgroundColor:'rgba(74,200,255,.16)', fill:true}]}, options:{responsive:true, scales:{r:{grid:{color:'rgba(255,255,255,.12)'}, angleLines:{color:'rgba(255,255,255,.12)'}, pointLabels:{color:'var(--muted)'}}}, plugins:{legend:{display:false}}}
+      });
+
+      document.getElementById('contactForm').addEventListener('submit', e => { e.preventDefault(); });
+    });
+  </script>
+</body>
+</html>
